@@ -34,7 +34,7 @@ begin
 
 	asp_adc : entity work.TestAdc
 	generic map (
-		forward => 1
+		forward => 3
 	)
 	port map (
 		clock => clock,
@@ -47,6 +47,13 @@ begin
 		clock => clock,
 		send  => send_port(1),
 		recv  => recv_port(1)
+	);
+
+	asp_DP : entity work.AspDP
+	port map (
+		clock => clock,
+		send  => send_port(3),
+		recv  => recv_port(3)
 	);
 
 end architecture;

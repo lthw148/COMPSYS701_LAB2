@@ -39,6 +39,8 @@ begin
 		end loop;
 
 		-- Send data
+		send.data <= x"90100000";
+		wait for 40 ns;
 		while not endfile(audio) loop
 			read(audio, word);
 			data := std_logic_vector(to_signed(word, 32));
@@ -46,8 +48,8 @@ begin
 			channel_1 <= signed(data(31 downto 16));
 			send.data <= x"8000" & data(15 downto 0);
 			wait for 20 ns;
-			send.data <= x"8001" & data(31 downto 16);
-			wait for 20 ns;
+			--send.data <= x"8001" & data(31 downto 16);
+			--wait for 20 ns;
 			send.data <= (others => '0');
 			wait for 280 ns;
 		end loop;

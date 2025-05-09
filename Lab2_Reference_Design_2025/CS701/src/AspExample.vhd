@@ -42,7 +42,7 @@ begin
 				if state > 4 then
 					state := 4;
 				else
-					state := 9;
+					state := 10;
 				end if;
 				hexn <= hexn + 1;
 			end if;
@@ -50,10 +50,10 @@ begin
 
 			-- Process data if available
 			if recv.data(31 downto 28) = "1000" and recv.data(16) = '0' and key(2) = '1' then
-				send.addr <= x"01";
+				send.addr <= x"03";
 				send.data <= recv.data;
 			elsif recv.data(31 downto 28) = "1000" and recv.data(16) = '1' and key(1) = '1' then
-				send.addr <= x"01";
+				send.addr <= x"03";
 				send.data <= recv.data;
 
 			-- Otherwise send configuration commands
@@ -61,6 +61,10 @@ begin
 			else
 				case state is
 
+					when 10 =>
+						send.addr <= x"03";
+						send.data <= x"90100000";
+						state := 9;
 					-- Enable DAC channel 0
 					when 9 =>
 						send.addr <= x"01";
